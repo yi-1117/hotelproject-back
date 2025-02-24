@@ -1,0 +1,104 @@
+spring:
+  application:
+    name: eeit195_01_back
+
+  profiles:
+    active: "@xxxx@"
+
+  # 資料庫連線設定
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;databaseName=hotel;trustServerCertificate=true
+    username: sa
+    password: P@ssw0rd
+
+  # Hibernate/JPA的相關設定
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: update
+      # naming:
+        # implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        # physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  #     # naming:
+  #       # implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+  #       # physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  #   open-in-view: false #如果你希望避免在視圖渲染期間執行 JPA 查詢，可以禁用 open-in-view，這樣 Spring 在處理請求時將不會持續開放 JPA 的 EntityManager
+  # #conosle顏色
+
+  # console顏色
+  output:
+    ansi:
+      enabled: always
+
+  jackson:
+    date-format: "yyyy-MM-dd"
+    time-zone: Asia/Taipei
+
+  mail:
+    host: smtp.gmail.com # 郵件伺服器地址
+    port: 587 # 郵件伺服器端口（通常是 587 用於 STARTTLS）
+    username: edwin821117@gmail.com # 從環境變數讀取郵件帳號
+    password: nnhw tjin gcky dhez # 從環境變數讀取郵件密碼
+    properties:
+      mail:
+        smtp:
+          auth: true # 啟用 SMTP 認證
+          starttls:
+            enable: true # 啟用 STARTTLS 協議
+    default-encoding: UTF-8 # 設定編碼為 UTF-8
+
+  web:
+    resources:
+      static-locations: file:uploads/ #弄上傳頭像的
+
+  # 啟用定時任務
+  task:
+    scheduling:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    tw.com.ispan.eeit195_01_back: DEBUG
+
+line:
+  client:
+    id: 2006867912
+    secret: 14ac6f34981e49efb2d7c3fe9186b959
+  redirect:
+    uri: http://localhost:8080/api/members/line-callback
+# server: 
+#   servlet: 
+#     context-path: /api
+#   port: 8443
+#   ssl: 
+#     enabled: true
+#     key-alias: eeitSecurity
+#     key-store: classpath:server.p12
+#     key-store-type: PKCS12
+#     key-password: Do!ng123
+#     key-store-password: Do!ng123
+  # # OAuth2 設定
+  # security:
+  #   oauth2:
+  #     client:
+  #       registration:
+  #         line:
+  #           client-id: 2006867912  # 你的 Line Client ID
+  #           client-secret: 14ac6f34981e49efb2d7c3fe9186b959  # 你的 Line Client Secret
+  #           authorization-grant-type: authorization_code
+  #           redirect-uri: "http://localhost:8080/api/members/line-callback"  # 重定向 URI
+  #           scope: profile
+  #           client-name: LINE
+  #           provider: line
+  #       provider:
+  #         line:
+  #           authorization-uri: https://access.line.me/oauth2/v2.1/authorize
+  #           token-uri: https://api.line.me/oauth2/v2.1/token
+  #           user-info-uri: https://api.line.me/v2/profile
+
+# jwt:
+#   token:
+#     expire: 10
