@@ -1,3 +1,4 @@
+package tw.com.ispan.eeit195_01_back.shop.repositiory;
 // package tw.com.ispan.eeit195_01_back.shop.repositiory;
 
 // import org.springframework.data.jpa.repository.JpaRepository;

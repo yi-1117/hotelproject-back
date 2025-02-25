@@ -1,3 +1,4 @@
+package tw.com.ispan.eeit195_01_back.shop.bean;
 //package tw.com.ispan.eeit195_01_back.shop.bean;
 //
 //import java.math.BigDecimal;

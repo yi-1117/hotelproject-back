@@ -57,7 +57,7 @@ public class PasswordResetService {
         passwordResetRepository.save(resetRequest);
 
         // 發送重設密碼郵件
-        String resetUrl = "http://192.168.23.148:8080/api/members/password/reset?token=" + resetToken;
+        String resetUrl = "http://localhost:8080/api/members/password/reset?token=" + resetToken;
         emailService.sendPasswordResetEmail(member.getEmail(), resetUrl);
 
         return resetRequest;

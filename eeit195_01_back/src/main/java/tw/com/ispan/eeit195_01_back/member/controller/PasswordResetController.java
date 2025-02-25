@@ -70,7 +70,7 @@ public class PasswordResetController {
             return new RedirectView("/error?message=Invalid%20or%20expired%20reset%20token");
         }
         // 將使用者導向前端重設密碼頁面
-        return new RedirectView("http://192.168.23.148:5173/reset-password?token=" + token);
+        return new RedirectView("http://localhost:5173/reset-password?token=" + token);
     }
 
 }
