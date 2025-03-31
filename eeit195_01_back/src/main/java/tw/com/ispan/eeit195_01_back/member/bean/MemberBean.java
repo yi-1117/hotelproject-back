@@ -19,7 +19,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import tw.com.ispan.eeit195_01_back.points.bean.MemberLevelsBean;
 import tw.com.ispan.eeit195_01_back.points.bean.PointsBean;
 import tw.com.ispan.eeit195_01_back.points.bean.PointsHistoryBean;
@@ -105,62 +108,10 @@ public class MemberBean {
 	@Builder.Default
 	private List<ShoppingOrder> shoppingOrders = new ArrayList<>(); // 會員的訂單
 
-	// public void setMemberId(Integer memberId) {
-	// this.memberId = memberId;
-	// }
-	//
-	// public void setPassword(String password) {
-	// this.password = password;
-	// }
-	//
-	// public void setEmail(String email) {
-	// this.email = email;
-	// }
-	//
-	// public void setStatus(MemberStatus status) {
-	// this.status = status;
-	// }
-	//
-	// public void setCreatedAt(LocalDateTime createdAt) {
-	// this.createdAt = createdAt;
-	// }
-	//
-	// public void setUpdatedAt(LocalDateTime updatedAt) {
-	// this.updatedAt = updatedAt;
-	// }
-	//
-	// // public Set<VerificationEmailBean> getVerificationEmails() {
-	// // return verificationEmails;
-	// // }
-	//
-	// // public void setVerificationEmails(Set<VerificationEmailBean>
-	// verificationEmails) {
-	// // this.verificationEmails = verificationEmails;
-	// // }
-	//
-	// public void setMemberDetailsBean(MemberDetailsBean memberDetailsBean) {
-	// this.memberDetailsBean = memberDetailsBean;
-	// }
-	//
-	// public void setPoints(PointsBean points) {
-	// Points = points;
-	// }
-	//
-	// public void setMemberPointsHistory(List<PointsHistoryBean>
-	// memberPointsHistory) {
-	// this.memberPointsHistory = memberPointsHistory;
-	// }
-	//
-	// public void setMemberLevels(List<MemberLevelsBean> memberLevels) {
-	// this.memberLevels = memberLevels;
-	// }
-	//
-	// public void setShoppingCart(ShoppingCart shoppingCart) {
-	// this.shoppingCart = shoppingCart;
-	// }
-	//
-	// public void setShoppingOrders(List<ShoppingOrder> shoppingOrders) {
-	// this.shoppingOrders = shoppingOrders;
-	// }
+	
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+	@Builder.Default
+	private List<ReviewLikeBean> reviewLikes = new ArrayList<>();
 
 }

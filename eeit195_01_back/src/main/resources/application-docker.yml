@@ -1,0 +1,116 @@
+# Redis 設定
+redis:
+  config:
+    url: host.docker.internal
+
+# Spring 應用程式名稱
+spring:
+  application:
+    name: eeit195_01_back
+
+# 啟用的 profile
+  # profiles:
+  #   active: docker
+
+# 資料庫連線設定
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://host.docker.internal:1433;databaseName=hotel;trustServerCertificate=true
+    username: sa
+    password: P@ssw0rd
+
+# Hibernate / JPA 設定
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: update
+#    naming:
+#      implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+#      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#    open-in-view: false
+
+# console 顏色
+  output:
+    ansi:
+      enabled: always
+
+# Jackson 設定
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: Asia/Taipei
+
+# 郵件發送設定
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: edwin821117@gmail.com
+    password: nnhw tjin gcky dhez
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+
+# 靜態資源位置
+  web:
+    resources:
+      static-locations: file:uploads/
+
+# 啟用定時任務
+  task:
+    scheduling:
+      enabled: true
+
+# Logging 設定
+  logging:
+    level:
+      org.springframework.security: DEBUG
+      tw.com.ispan.eeit195_01_back: DEBUG
+
+# LINE 登入設定
+line:
+  client:
+    id: 2006867912
+    secret: 14ac6f34981e49efb2d7c3fe9186b959
+  redirect:
+    uri: http://localhost:8080/api/members/line-callback
+
+# 伺服器設定（已註解）
+# server:
+#   servlet:
+#     context-path: /api
+#   port: 8443
+#   ssl:
+#     enabled: true
+#     key-alias: eeitSecurity
+#     key-store: classpath:server.p12
+#     key-store-type: PKCS12
+#     key-password: Do!ng123
+#     key-store-password: Do!ng123
+
+# OAuth2 設定（已註解）
+# spring:
+#   security:
+#     oauth2:
+#       client:
+#         registration:
+#           line:
+#             client-id: 2006867912
+#             client-secret: 14ac6f34981e49efb2d7c3fe9186b959
+#             authorization-grant-type: authorization_code
+#             redirect-uri: http://localhost:8080/api/members/line-callback
+#             scope: profile
+#             client-name: LINE
+#         provider:
+#           line:
+#             authorization-uri: https://access.line.me/oauth2/v2.1/authorize
+#             token-uri: https://api.line.me/oauth2/v2.1/token
+#             user-info-uri: https://api.line.me/v2/profile
+
+# JWT 設定（已註解）
+# jwt:
+#   token:
+#     expire: 10

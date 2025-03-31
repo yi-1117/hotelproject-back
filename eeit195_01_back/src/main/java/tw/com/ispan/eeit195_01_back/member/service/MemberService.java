@@ -163,6 +163,11 @@ public class MemberService {
         return memberRepository.findAll(pageable); // 使用 JPA 分頁功能
     }
 
+    // 根據 ID 查找會員
+    public MemberBean getMemberById(Integer memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new IllegalStateException("會員不存在"));
+    }
+
     // 刪除會員
     public void deleteMember(Integer id) {
         memberRepository.deleteById(id);

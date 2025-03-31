@@ -16,11 +16,21 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "member_details")
 @Data // Lombok 自動生成 getter, setter, toString 等方法
+@NoArgsConstructor
 public class MemberDetailsBean {
+
+    
+    // **新增建構子**
+    public MemberDetailsBean(String socialMediaAccount, String fullName, String profilePicture) {
+        this.socialMediaAccount = socialMediaAccount;
+        this.fullName = fullName;
+        this.profilePicture = profilePicture;
+    }
 
     @Id
     @Column(name = "member_id")

@@ -174,7 +174,7 @@ public class MemberDetailsController {
 
             String uploadDir = System.getenv("UPLOAD_DIR"); 
             if (uploadDir == null || uploadDir.isEmpty()) {
-                uploadDir = "C:/default_profile_pictures/"; // 預設值
+                uploadDir = "/app/default_profile_pictures/"; // 預設值，適應容器內的路徑
             }
 
             try {
@@ -226,7 +226,7 @@ public class MemberDetailsController {
     @GetMapping("/profile_pictures/{memberId}")
     public ResponseEntity<Resource> getLatestProfilePicture(@PathVariable Integer memberId) {
         try {
-            Path memberDir = Paths.get("C:/default_profile_pictures/" + memberId);
+            Path memberDir = Paths.get("/app/default_profile_pictures/" + memberId);
             if (!Files.exists(memberDir)) {
                 return ResponseEntity.notFound().build();
             }

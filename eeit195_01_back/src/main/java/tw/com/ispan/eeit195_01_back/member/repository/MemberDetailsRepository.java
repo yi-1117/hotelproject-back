@@ -11,4 +11,5 @@ public interface MemberDetailsRepository extends JpaRepository<MemberDetailsBean
     Optional<MemberDetailsBean> findByMemberId(Integer memberId);
 
     Optional<MemberDetailsBean> findBySocialMediaAccount(String socialMediaAccount);
+    
 }

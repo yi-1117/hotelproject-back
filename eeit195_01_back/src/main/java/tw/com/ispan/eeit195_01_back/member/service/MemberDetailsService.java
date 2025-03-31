@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import reactor.core.publisher.Mono;
 import tw.com.ispan.eeit195_01_back.member.bean.MemberBean;
 import tw.com.ispan.eeit195_01_back.member.bean.MemberDetailsBean;
 import tw.com.ispan.eeit195_01_back.member.bean.MemberStatus;
@@ -89,27 +90,27 @@ public class MemberDetailsService {
     // 更新社交媒體帳號
     public void updateLineProfile(String userId, String displayName, String pictureUrl) {
         System.out.println("更新 LINE Profile：userId=" + userId + ", displayName=" + displayName);
-    
+
         // 查找會員詳細資料
         MemberDetailsBean memberDetails = memberDetailsRepository.findBySocialMediaAccount(userId).orElse(null);
-    
+
         // 檢查是否存在 `MemberDetailsBean`，但 `member_id` 是空的
         if (memberDetails != null && memberDetails.getMemberBean() != null) {
             System.out.println("會員已存在，memberId=" + memberDetails.getMemberBean().getMemberId());
             return; // 直接返回，不要錯誤更新
         }
-    
+
         System.out.println("會員不存在，應該進入註冊頁");
-    
+
         // 創建新的會員
         MemberBean newMember = new MemberBean();
         newMember.setIsVerified(true);
         newMember.setStatus(MemberStatus.ACTIVE);
         newMember.setCreatedAt(LocalDateTime.now());
         newMember.setUpdatedAt(LocalDateTime.now());
-    
+
         newMember = memberRepository.saveAndFlush(newMember);
-    
+
         // 創建 `MemberDetailsBean`
         MemberDetailsBean newMemberDetails = new MemberDetailsBean();
         newMemberDetails.setMemberBean(newMember);
@@ -117,7 +118,7 @@ public class MemberDetailsService {
         newMemberDetails.setFullName(displayName);
         newMemberDetails.setProfilePicture(pictureUrl);
         newMemberDetails.setUpdatedAt(LocalDateTime.now());
-    
+
         memberDetailsRepository.saveAndFlush(newMemberDetails);
     }
 
@@ -168,4 +169,13 @@ public class MemberDetailsService {
         });
     }
 
+    public Mono<MemberDetailsBean> findMonoBySocialMediaAccount(String socialMediaAccount) {
+        return Mono.fromCallable(() -> memberDetailsRepository.findBySocialMediaAccount(socialMediaAccount))
+                .flatMap(optional -> optional.map(Mono::just).orElseGet(Mono::empty));
+    }
+
+    // 將同步 save() 轉成 Mono
+    public Mono<MemberDetailsBean> saveMember(MemberDetailsBean member) {
+        return Mono.fromCallable(() -> memberDetailsRepository.save(member));
+    }
 }
