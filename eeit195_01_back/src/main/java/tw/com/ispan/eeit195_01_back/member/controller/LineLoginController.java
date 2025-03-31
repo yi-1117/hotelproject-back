@@ -28,7 +28,7 @@ import tw.com.ispan.eeit195_01_back.member.service.MemberDetailsService;
 
 @RestController
 @RequestMapping("/api/line-login")
-@CrossOrigin(origins = "http://localhost:5173")  // 允許來自前端的請求
+@CrossOrigin(origins = "http://localhost:5173") // 允許來自前端的請求
 public class LineLoginController {
 
         @Value("${line.client.id}")
@@ -39,6 +39,8 @@ public class LineLoginController {
 
         @Value("${line.redirect.uri}")
         private String redirectUri;
+
+        String redirectUrl;
 
         private static final String TOKEN_URL = "https://api.line.me/oauth2/v2.1/token";
         private static final String PROFILE_URL = "https://api.line.me/v2/profile";
@@ -60,11 +62,12 @@ public class LineLoginController {
         // }
 
         @GetMapping("/callback")
-        public ResponseEntity<Map<String, Object>> callback(@RequestParam("code") String code,
+        public ResponseEntity<Map<String, Object>> callback(
+                        @RequestParam("code") String code,
                         @RequestParam("state") String state) {
+
                 if (!"yourState123".equals(state)) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(Collections.singletonMap("error", "Invalid state"));
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Invalid state"));
                 }
 
                 String tokenRequestBody = "grant_type=authorization_code&code=" + code
@@ -93,25 +96,29 @@ public class LineLoginController {
 
                         memberDetailsService.updateLineProfile(userId, displayName, pictureUrl);
 
-                        // 檢查 `userId` 是否已經存在於資料庫
+                        // 檢查 userId 是否已經存在於資料庫
                         Optional<MemberDetailsBean> existingMember = memberDetailsService
                                         .findBySocialMediaAccount(userId);
 
-                        Map<String, Object> responseMap = new HashMap<>();
+                        // Map<String, Object> responseBody = new HashMap<>();
                         if (existingMember.isPresent()) {
-                                // 會員已存在，返回會員資料
-                                responseMap.put("redirectUrl",
-                                                "http://localhost:5173/member-center/login?member-id=" + existingMember.get().getMemberId() + "&access-token=" + accessToken);
-                        } else {
-                                // 會員不存在，返回註冊頁面 URL
-                                responseMap.put("redirectUrl", "http://localhost:5173/member-center/register");
-                        }
-
-                        return ResponseEntity.ok(responseMap);
+                                // 會員已存在，導向會員中心
+                                redirectUrl = "http://localhost:5173/member-center/login?member-id=" 
+                                              + existingMember.get().getMemberId()
+                                              + "&access-token=" + accessToken;
+                            } else {
+                                // 會員不存在，導向註冊頁面
+                                redirectUrl = "http://localhost:5173/member-center/register";
+                            }
+                    
+                            // **使用 302 Redirect 讓前端直接跳轉**
+                            return ResponseEntity.status(HttpStatus.FOUND)
+                                                 .header("Location", redirectUrl)
+                                                 .build();
 
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(Collections.singletonMap("error", e.getMessage()));
+                                        .body(Map.of("error", "處理 LINE 登入時發生錯誤"));
                 }
         }
 
