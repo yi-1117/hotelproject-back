@@ -82,7 +82,7 @@ public class MemberController {
         if (!foundMember.getIsVerified()) {
             response.put("status", "error");
             response.put("memberId", foundMember.getMemberId()); // 新增 memberId 回應
-            response.put("message", "Email not verified.");
+            response.put("message", "您的信箱尚未驗證，請先驗證您的信箱。");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response); // 403 Forbidden
         }
 
@@ -97,7 +97,7 @@ public class MemberController {
         if (foundMember.getStatus() != MemberStatus.ACTIVE) {
             response.put("status", foundMember.getStatus());
             response.put("memberId", foundMember.getMemberId()); // 新增 memberId 回應
-            response.put("message", "Member is not active");
+            response.put("message", "非活躍狀態，無法登入");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response); // 403 Forbidden
         }
 

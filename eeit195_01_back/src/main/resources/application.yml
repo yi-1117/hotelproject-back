@@ -75,6 +75,11 @@ line:
     url: https://api.line.me/oauth2/v2.1/token
   profile:
     url: https://api.line.me/v2/profile
+  messaging:
+    channel-id: 2007172966
+    channelSecret: 421d7c57e16b836a02d9715dc4e9f037
+    channel-token: iT0bJvFg2UUfWNt9LdfDD7TVuyV2Kr/w/PJXS6MjuHZys7ZS5aSPJhChflTql9X3lB5b8y7zvrXYaV1qfmGsrEDzYjniUj7i0d6SyoIFLD3E4qU52xGtzTji50bf0gaoSkdWMqey675cv5bjguxUjgdB04t89/1O/w1cDnyilFU=
+    webhook-url: https://46e4-114-45-197-195.ngrok-free.app
 # server: 
 #   servlet: 
 #     context-path: /api

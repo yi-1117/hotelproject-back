@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,7 +28,7 @@ public class ReviewBean {
     @Column(name = "review_id")
     private Integer reviewId; // 評論 ID（主鍵）
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE) // 確保合併時也更新
     @JsonBackReference // 避免無窮遞迴
     @JoinColumn(name = "member_id", nullable = false)
     private MemberBean member; // 會員關聯（發表評論的會員）
